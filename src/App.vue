@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import JSConfetti from 'js-confetti'
 import type { Ref } from "vue";
 
 type ApiResponse = { status: string; message: string };
+
+const jsConfetti = new JSConfetti();
+
 
 const imageSrc: Ref<null | ApiResponse["message"]> = ref("");
 const isButtonDisabled = ref(false);
@@ -14,6 +18,12 @@ async function fetchKitten() {
     const res = await fetch("https://dog.ceo/api/breeds/image/random");
     const imgLink: ApiResponse = await res.json();
     imageSrc.value = imgLink.message;
+    jsConfetti.addConfetti({
+      confettiRadius: 1000000,
+      emojiSize: 200,
+      confettiNumber: 20,
+      emojis: ['🐶', '🦴']
+    });
   } catch (error) {
     console.error("Error!");
   } finally {
